@@ -1,18 +1,35 @@
 #include <iostream>
 #include <random>
 #include <cstdlib>
+#include <ctime>
+
+#include "cxxopts.hpp"
+
 
 int main(int argc, char *argv[]){
 
-  double mu = atoi(argv[1]);
-  double var = atoi(argv[2]);
+  cxxopts::Options options("DGaussGen", "Gaussian noise generator to json format");
 
-  long limit = atoi(argv[3]);
-  long seed = atoi(argv[4]);
+  options.add_options()
+    ("u,mean", "Mean value", cxxopts::value<double>()->default_value("0"))
+    ("d,std", "Standard deviation", cxxopts::value<double>()->default_value("1"))
+    ("s,seed", "Start seed", cxxopts::value<long>()->default_value("-1"))
+    ("l,limit", "Number of samples generated", cxxopts::value<long>()->default_value("10"))
+    ;
+
+  auto result = options.parse(argc, argv);
+
+  double mu = result["mean"].as<double>();
+  double stdev = result["std"].as<double>();
+  long seed = result["seed"].as<long>();
+  if(seed == -1){
+    seed = std::time(nullptr);
+  }
+  long limit = result["limit"].as<long>();
   
   std::default_random_engine gen(seed);
 
-  std::normal_distribution<double> dist(mu,var);  
+  std::normal_distribution<double> dist(mu,stdev);  
 
   std::cout << "[";
   int i = 0;
