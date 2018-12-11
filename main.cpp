@@ -15,9 +15,14 @@ int main(int argc, char *argv[]){
     ("d,std", "Standard deviation", cxxopts::value<double>()->default_value("1"))
     ("s,seed", "Start seed", cxxopts::value<long>()->default_value("-1"))
     ("l,limit", "Number of samples generated", cxxopts::value<long>()->default_value("10"))
+    ("h,help", "Display this help message")
     ;
 
   auto result = options.parse(argc, argv);
+  if(result["help"].as<bool>()){
+    std::cout << options.help();
+    return 0;
+  }
 
   double mu = result["mean"].as<double>();
   double stdev = result["std"].as<double>();
