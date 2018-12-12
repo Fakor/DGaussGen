@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
   options.add_options()
     ("u,mean", "Mean value", cxxopts::value<double>()->default_value("0"))
     ("d,std", "Standard deviation", cxxopts::value<double>()->default_value("1"))
-    ("s,seed", "Start seed", cxxopts::value<long>()->default_value("-1"))
+    ("s,seed", "Start seed, default means current time will be used", cxxopts::value<long>()->default_value("-1"))
     ("l,limit", "Number of samples generated", cxxopts::value<long>()->default_value("10"))
     ("h,help", "Display this help message")
     ;
